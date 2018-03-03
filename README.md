@@ -1,6 +1,6 @@
-# Simple Shell
+# Shell v2 - an upgrade to Simple Shell
 
-A simple UNIX shell written in C.
+An upgrade to the simple UNIX shell written in C.
 
 # Compile
 
