@@ -58,5 +58,19 @@ char handle_builtins(char *cmd, char *line __attribute__ ((unused)),
 		return (0);
 	}
 
+	if (_strncmp(cmd, "cd", 3) == 0)
+	{
+		arg = strtok(NULL, " \n");
+		if (arg != NULL)
+		{
+			if (chdir(arg) == -1)
+			{
+				perror("chdir");
+			}
+		}
+
+		return (0);
+	}
+
 	return (1);
 }
