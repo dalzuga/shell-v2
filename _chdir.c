@@ -32,6 +32,7 @@ int _chdir(char *dest, char ***env)
 			perror("malloc");
 			exit(EXIT_FAILURE);
 		}
+		errno = 0;	/* reset errno to avoid undefined behavior */
 	}
 
 	printf("buf is: %s\n", buf);
@@ -58,6 +59,7 @@ int _chdir(char *dest, char ***env)
 			perror("malloc");
 			exit(EXIT_FAILURE);
 		}
+		errno = 0;	/* reset errno to avoid undefined behavior */
 	}
 	_setenv_func(env, "PWD", buf);
 
@@ -70,3 +72,13 @@ int _chdir(char *dest, char ***env)
 
 	return (0);
 }
+
+/**
+ * _getcwd - returns current working directory string using standard library
+ * call.
+ *
+ * @dest: directory to change to
+ * @env: the current environment
+ *
+ * Return: On success, return 0. On error, return -1.
+ */
