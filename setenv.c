@@ -71,7 +71,7 @@ int _setenv_func(char ***env, char *envvar, char *envval)
 	*env = new_env;
 
 	(*env)[i] = new_path_str(envvar, envval);
-	printf("%s\n", (*env)[i]);
+	/* printf("%s\n", (*env)[i]); */
 
 	(*env)[++i] = NULL;
 
