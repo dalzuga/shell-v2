@@ -37,7 +37,29 @@ int _chdir(char *dest, char ***env)
 	printf("buf is: %s\n", buf);
 	printf("dest is: %s\n", dest);
 
+	_setenv_func(env, "OLDPWD", buf);
 	chdir(dest);
+
+	while (1)
+	{
+		buf = getcwd(buf, buf_size);
+		if (buf != NULL)
+		{
+			printf("break\n%s\n", buf);
+			break;
+		}
+
+		buf_size += BUF_SIZE; /* increase buffer size (linearly) */
+		if (buf_size > 0)
+			free(buf);
+		buf = malloc(sizeof(char) * buf_size);
+		if (buf == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+	}
+	_setenv_func(env, "PWD", buf);
 
 	if (DEBUG == 1)
 	{
