@@ -2,3 +2,4 @@ hsh
 trash/
 tests/
 .gdb_history
+gdbscripts/
