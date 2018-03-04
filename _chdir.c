@@ -12,18 +12,20 @@
 int _chdir(char *dest, char ***env)
 {
 	char *OLDPWD_value = NULL, *PWD_value = NULL, *buf = NULL;
-	size_t buf_size = BUF_SIZE;
+	size_t buf_size = 0;
 
 	while (1)
 	{
-		if (getcwd(buf, buf_size) != NULL)
+		buf = getcwd(buf, buf_size);
+		if (buf != NULL)
 		{
-			printf("break\n%s\n", buf)
+			printf("break\n%s\n", buf);
 			break;
 		}
 
 		buf_size += BUF_SIZE; /* increase buffer size (linearly) */
-		free(buf);
+		if (buf_size > 0)
+			free(buf);
 		buf = malloc(sizeof(char) * buf_size);
 		if (buf == NULL)
 		{
@@ -35,13 +37,14 @@ int _chdir(char *dest, char ***env)
 	printf("buf is: %s\n", buf);
 	printf("dest is: %s\n", dest);
 
+	chdir(dest);
+
 	if (DEBUG == 1)
 	{
 		printf("env is: %p\n", (void *) env);
+		canary(PWD_value);
+		canary(OLDPWD_value);
 	}
-
-	canary(PWD_value);
-	canary(OLDPWD_value);
 
 	return (0);
 }
