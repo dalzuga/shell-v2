@@ -63,13 +63,16 @@ char handle_builtins(char *cmd, char *line __attribute__ ((unused)),
 		arg = strtok(NULL, " \n");
 		if (arg != NULL)
 		{
-			if (chdir(arg) == -1)
+			if (_chdir(arg, env) == -1)
 			{
-				perror("chdir");
+				return (1);
 			}
+
+			return (0);
 		}
 
-		return (0);
+		_chdir(arg, env);
+		/* _setenv_func(env, "PWD", arg); /\* set PWD *\/ */
 	}
 
 	return (1);

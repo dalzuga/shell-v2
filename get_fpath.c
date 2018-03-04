@@ -10,8 +10,6 @@
  * program. Otherwise, returns ~cmd~ unchanged (for relative path.). On memory
  * error, returns NULL.
  */
-/* get_fpath - On memory error, returns NULL */
-/* allocates a string in memory which must be freed by the calling function */
 char *get_fpath(char *cmd, char **env)
 {
 	unsigned long int i = 0, j = 0;

@@ -84,4 +84,6 @@ int _strcmp(const char *s1, const char *s2);
 
 void shrink_env(char ***env, int del);
 
+int _chdir(char *dest, char ***env);
+
 #endif
