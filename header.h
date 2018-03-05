@@ -18,6 +18,17 @@
 #include <sys/stat.h> /* ~stat(2)~ */
 #include <signal.h>   /* signal(2) */
 
+typedef struct shell_s
+{
+	FILE *fp;
+	char *line;
+	size_t len;
+	ssize_t read;
+	char *cmd;
+	char ***env;
+	char **argv;
+} shell_t;
+
 /* this function prints the simple shell user prompt */
 int *print_prompt();
 /* this function prints a character */
@@ -91,5 +102,7 @@ int _chdir(char *dest, char ***env);
  * call. The user of this function must free the returned allocated memory.
  */
 char *_getcwd(void);
+
+int main_loop(shell_t *shs);
 
 #endif
