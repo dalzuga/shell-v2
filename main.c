@@ -10,8 +10,13 @@ int main(int __attribute__ ((unused)) argc, char *argv[], char **env)
 	{
 		perror("malloc");
 	}
-
 	shs->fp = stdin;
+	shs->line = NULL;
+	shs->len = 0;
+	shs->read = 0;
+	shs->cmd = NULL;
+	shs->env = NULL;
+	shs->argv = NULL;
 
 	shs->argv = argv;
 
@@ -30,8 +35,12 @@ int main(int __attribute__ ((unused)) argc, char *argv[], char **env)
 		if (interactive)
 			print_prompt();
 
-		main_loop(shs);
+		if (main_loop(shs) != EXIT_SUCCESS)
+			return (EXIT_SUCCESS);
+		else
+			break;
 	}
 
+	free(shs);
 	return (EXIT_SUCCESS);
 }
