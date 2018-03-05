@@ -10,54 +10,33 @@ int main(int __attribute__ ((unused)) argc, char *argv[], char **env)
 	int interactive;
 
 	fp = stdin;
-
 	interactive = _isinteractive();
-
-	/* take control of environment */
-	env = replicate_env(env);
-
+	env = replicate_env(env); /* take control of environment */
 	if (signal(SIGINT, interrupt_handler) == SIG_IGN)
-	{
 		signal(SIGINT, SIG_IGN);
-	}
 
 	while (1)
 	{
-
 		if (interactive)
-		{
 			print_prompt();
-		}
-
 		read = getline(&line, &len, fp);
-		/* printf("Len: %lu\n", len); */
-		/* printf("Address: %p\n", (void *) line); */
-
 		if (fp == NULL)
 		{
-			/* if fp is a file which failed to open */
-			perror(argv[0]);
+			perror(argv[0]); /* if fp file failed to open */
 			return (EXIT_FAILURE);
 		}
 
-		/* handle Ctrl+D */
-		if (read == EOF)
+		if (read == EOF) /* handle Ctrl+D */
 		{
 			_free(line);
 			free_env(env);
-
 			if (errno == 0)
-			{
 				return (EXIT_SUCCESS);
-			}
 
 			/* printf("errno is not 0.\n"); */
 			perror(argv[0]);
 			return (EXIT_FAILURE);
 		}
-
-		/* printf("Read: %d\n", (int) read); */
-		/* print_buffer(line, read); */
 
 		handle_comments(line);
 
@@ -65,8 +44,6 @@ int main(int __attribute__ ((unused)) argc, char *argv[], char **env)
 		/* handles newline (empty command) + checks for built in */
 		if (cmd != NULL && handle_builtins(cmd, line, &env))
 		{
-			canary("exec begins");
-
 			/**
 			 * PROGRAM EXEC
 			 * fork() begins here
