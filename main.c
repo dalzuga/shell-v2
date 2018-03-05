@@ -34,15 +34,20 @@ int main(int __attribute__ ((unused)) argc, char *argv[], char **env)
 		}
 		handle_comments(line);
 		cmd = strtok(line, " \n");
+		main_2(cmd, line, env, argv);
+	}
+	return (EXIT_SUCCESS);
+}
+
+void main_2(char *cmd, char *line, char **env, char **argv)
+{
 		if (cmd != NULL && handle_builtins(cmd, line, &env))
 		{
 			if (handle_exec(cmd, line, &env))
 			{
 				free_env(env);
 				perror(argv[0]);
-				return (EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 			}
 		}
-	}
-	return (EXIT_SUCCESS);
 }

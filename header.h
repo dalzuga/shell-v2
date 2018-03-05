@@ -86,6 +86,8 @@ void shrink_env(char ***env, int del);
 
 int _chdir(char *dest, char ***env);
 
+void main_2(char *cmd, char *line, char **env, char **argv);
+
 /*
  * _getcwd - returns current working directory string using standard library
  * call. The user of this function must free the returned allocated memory.
