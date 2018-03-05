@@ -8,13 +8,11 @@ int main(int __attribute__ ((unused)) argc, char *argv[], char **env)
 	ssize_t read = 0;
 	char *cmd = NULL;
 	int interactive;
-
 	fp = stdin;
 	interactive = _isinteractive();
 	env = replicate_env(env); /* take control of environment */
 	if (signal(SIGINT, interrupt_handler) == SIG_IGN)
 		signal(SIGINT, SIG_IGN);
-
 	while (1)
 	{
 		if (interactive)
@@ -25,39 +23,26 @@ int main(int __attribute__ ((unused)) argc, char *argv[], char **env)
 			perror(argv[0]); /* if fp file failed to open */
 			return (EXIT_FAILURE);
 		}
-
 		if (read == EOF) /* handle Ctrl+D */
 		{
 			_free(line);
 			free_env(env);
 			if (errno == 0)
 				return (EXIT_SUCCESS);
-
-			/* printf("errno is not 0.\n"); */
 			perror(argv[0]);
 			return (EXIT_FAILURE);
 		}
-
 		handle_comments(line);
-
 		cmd = strtok(line, " \n");
-		/* handles newline (empty command) + checks for built in */
 		if (cmd != NULL && handle_builtins(cmd, line, &env))
 		{
-			/**
-			 * PROGRAM EXEC
-			 * fork() begins here
-			 */
-
 			if (handle_exec(cmd, line, &env))
 			{
-				canary("hello");
 				free_env(env);
 				perror(argv[0]);
 				return (EXIT_FAILURE);
 			}
 		}
 	}
-
 	return (EXIT_SUCCESS);
 }
